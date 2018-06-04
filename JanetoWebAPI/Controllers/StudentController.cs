@@ -15,6 +15,52 @@ namespace JanetoWebAPI.Controllers
         {
             this._db = new ApiDBContext();
         }
+        /**
+         * @api {POST} /student/CreateStudent Create one student
+         * @apigroup Student
+         * @apiPermission none
+         * 
+         * 
+         * @apiParam {int} StudentId StudentId of student
+         * @apiParam {DateTime} StudentBirth  Birthday of student
+         * @apiParam {string} StudentAddress Address of student
+         * @apiParam {string} StudentName Name of student
+         * @apiParam {int} Class_Id Id class of student
+         * 
+         * @apiParamExample {json} Request-Example:
+         * {
+         *      StudentId:"123",
+         *      StudentBirth:"09/09/1997",
+         *      StudentAddress:"CMT8",
+         *      StudentName:"Đỗ Đức Huy",
+         *      Class_Id: 1
+         * }
+         * 
+         * @apiSuccess {int} StudentId StudentId of student has been created
+         * @apiSuccess {DateTime} StudentBirth  Birthday of student has been created
+         * @apiSuccess {string} StudentAddress Address of student has been created
+         * @apiSuccess {string} StudentName Name of student has been created
+         * @apiSuccess {int} Class_Id Id class of student has been created
+         * 
+         * @apiSuccessExample {json} Response:
+         * {
+         *      Id: 1,
+         *      StudentId:123,
+         *      StudentBirth:"09/09/1997",
+         *      StudentAddress:"CMT8",
+         *      StudentName:"Đỗ Đức Huy",
+         *      Class_Id: 1
+         * }
+         * 
+         * @apiError [400] {string[]} Errors Array of error
+         * @apiErrorExample:{json}
+         * {
+         *      "Error":[
+         *          "StudentName" is required
+         *          "StudentAddress" is required
+         *      ]
+         * }
+         */
         //Tạo 
         [HttpPost]
         public IHttpActionResult CreateStudent(CreateStudentModel model)
@@ -48,6 +94,52 @@ namespace JanetoWebAPI.Controllers
             }
             return httpActionResult;
         }
+        /**
+        * @api {PUT} /student/UpdateStudent Update one student
+        * @apigroup Student
+        * @apiPermission none
+        * 
+        * @apiSuccess {int} StudentId StudentId of student 
+        * @apiSuccess {DateTime} StudentBirth  Birthday of student 
+        * @apiSuccess {string} StudentAddress Address of student 
+        * @apiSuccess {string} StudentName Name of student 
+        * @apiSuccess {int} Class_Id Id class of student 
+        * 
+        * @apiParamExample {json} Request-Example:
+        * {
+        *       Id: 1,
+        *       StudentId:123,
+        *       StudentBirth:"09/09/1997",
+        *       StudentAddress:"CMT8",
+        *       StudentName:"Đỗ Đức Huy",
+        *       Class_Id: 1
+        * }
+        * 
+        * @apiSuccess {int} StudentId StudentId of student has been updated
+        * @apiSuccess {DateTime} StudentBirth  Birthday of student has been updated
+        * @apiSuccess {string} StudentAddress Address of student has been updated
+        * @apiSuccess {string} StudentName Name of student has been updated
+        * @apiSuccess {int} Class_Id Id class of student has been updated
+        *  
+        * @apiSuccessExample {json} Response:
+        * {
+        *       Id: 1,
+        *       StudentId:123,
+        *       StudentBirth:"09/09/1997",
+        *       StudentAddress:"CMT8",
+        *       StudentName:"Đỗ Đức Huy",
+        *       Class_Id: 1
+        * }
+        * 
+        * @apiError [400] {string[]} Errors Array of error
+        * @apiErrorExample:{json}
+        * {
+        *      "Error":[
+        *          "StudentName" is required
+        *          "StudentAddress" is required
+        *      ]
+        * }
+        */
         //Sửa 
         [HttpPut]
         public IHttpActionResult UpdateStudent(UpdateStudentModel model)
@@ -73,6 +165,38 @@ namespace JanetoWebAPI.Controllers
             }
             return httpActionresult;
         }
+        /**
+       * @api {GET} /student/GetAllStudent Get all student 
+       * @apigroup Student
+       * @apiPermission none
+       * 
+       * 
+       * 
+       * @apiSuccessExample {json} Response:
+       * {
+       *      Id: 1,
+       *      StudentId:123,
+       *      StudentBirth:"09/09/1997",
+       *      StudentAddress:"CMT8",
+       *      StudentName:"Đỗ Đức Huy",
+       *      Class_Id: 1
+       *      
+       *      Id: 2,
+       *      StudentId:124,
+       *      StudentBirth:"09/09/1998",
+       *      StudentAddress:"Hoàng Diệu",
+       *      StudentName:"Đỗ Đức Phát",
+       *      Class_Id: 1
+       * }
+       * 
+       * @apiError [400] {string[]} Errors Array of error
+       * @apiErrorExample:{json}
+       * {
+       *      "Error":[
+       *          
+       *      ]
+       * }
+       */
         //Lấy tất cả 
         [HttpGet]
         public IHttpActionResult GetAllStudent()
@@ -88,7 +212,36 @@ namespace JanetoWebAPI.Controllers
             });
             return Ok(lstStudent);
         }
-        //Lấy theo mssv
+        /**
+    * @api {GET} /student/GetStudentByStudentId?studentId=:studentId Get one class by studentid
+    * @apigroup Student
+    * @apiPermission none
+    * 
+    * @apiParam {int} StudentId StudentId of student
+    * 
+    * @apiExample Example usage: 
+    * 
+    * /student/GetStudentByStudentId?studentId=123
+    * 
+    * @apiSuccessExample {json} Response:
+    * {
+    *      Id: 1,
+    *      StudentId:123,
+    *      StudentBirth:"09/09/1997",
+    *      StudentAddress:"CMT8",
+    *      StudentName:"Đỗ Đức Huy",
+    *      Class_Id: 1
+    * }
+    * 
+    * @apiError [400] {string[]} Errors Array of error
+    * @apiErrorExample:{json}
+    * {
+    *      "Error":[
+    *          Không tìm thấy sinh viên!
+    *      ]
+    * }
+    */
+        //Lấy theo mã
         [HttpGet]
         public IHttpActionResult GetStudentByStudentId(int studentId)
         {
@@ -106,6 +259,30 @@ namespace JanetoWebAPI.Controllers
             }
             return httpActionResult;
         }
+        /**
+    * @api {DELETE} /student/DeleteStudent?studentId=:studentId Delete one student by studentId
+    * @apigroup Student
+    * @apiPermission none
+    * 
+    * @apiParam {int} studentId StudentId of student
+    * 
+    * @apiExample Example usage: 
+    * 
+    * /student/DeleteStudent?studentId=123
+    * 
+    * @apiSuccessExample {json} Response:
+    * {
+    *      Đã xóa sinh viên 123
+    * }
+    * 
+    * @apiError [400] {string[]} Errors Array of error
+    * @apiErrorExample:{json}
+    * {
+    *      "Error":[
+    *          Mã sinh viên không tồn tạo!
+    *      ]
+    * }
+    */
         //Xóa sinh viên
         [HttpDelete]
         public IHttpActionResult DeleteStudent(int studentId)

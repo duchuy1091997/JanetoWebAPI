@@ -1,9 +1,9 @@
 {
 	"name":"Example",
-	"version":"0.1.0",
+	"version":"0.2.0",
 	"description":"API doc example",
 	"apidoc":{
-		"title":"First exmaple",
+		"title":"First example",
 		"url":"http://localhost:27808"
 	}
 }

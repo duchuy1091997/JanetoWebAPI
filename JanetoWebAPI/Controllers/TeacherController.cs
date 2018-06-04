@@ -16,6 +16,45 @@ namespace JanetoWebAPI.Controllers
         {
             this._db = new ApiDBContext();
         }
+        /**
+         * @api {POST} /teacher/CreateTeacher Create one teacher
+         * @apigroup Teacher
+         * @apiPermission none
+         * 
+         * 
+         * @apiParam {string} TeacherId TeacherId of teacher
+         * @apiParam {string} TeacherName Name of teacher
+         * @apiParam {string} TeacherAddress Address of teacher
+         * 
+         * @apiParamExample {json} Request-Example:
+         * {
+         *      TeacherId:"1",
+         *      TeacherName:"Nguyễn Văn A"
+         *      TeacherAddress:"TPHCM"
+         *     
+         * }
+         * @apiSuccess {string} TeacherId TeacherId of teacher has been created
+         * @apiSuccess {string} TeacherName Name of teacher has been created
+         * @apiSuccess {string} TeacherAddress Address of teacher has been created
+         * 
+         * @apiSuccessExample {json} Response:
+         * {
+         *      Id: 1,
+         *      TeacherId:"1",
+         *      TeacherName:"Nguyễn Văn A",
+         *      TeacherAddress:"TPHCM"
+         * }
+         * 
+         * @apiError [400] {string[]} Errors Array of error
+         * @apiErrorExample:{json}
+         * {
+         *      "Error":[
+         *          "TeacherId" is required
+         *          "TeacherName" is required
+         *      ]
+         * }
+         */
+
         //Tạo
         [HttpPost]
         public IHttpActionResult CreateTeacher(CreateTeacherModel model)
@@ -51,6 +90,35 @@ namespace JanetoWebAPI.Controllers
 
             return httpActionResult;
         }
+        /**
+       * @api {GET} /teacher/GetAllTeacher Get all teacher 
+       * @apigroup Teacher
+       * @apiPermission none
+       * 
+       * 
+       * 
+       * @apiSuccessExample {json} Response:
+       * {
+       *      Id: 1,
+       *      TeacherId:"1",
+       *      TeacherName:"Nguyễn Văn A",
+       *      TeacherAddress:"TPHCM"
+       *      
+       *      Id: 2,
+       *      TeacherId:"2",
+       *      TeacherName:"Nguyễn Văn B",
+       *      TeacherAddress:"BR-VT"
+       * }
+       * 
+       * @apiError [400] {string[]} Errors Array of error
+       * @apiErrorExample:{json}
+       * {
+       *      "Error":[
+       *          
+       *      ]
+       * }
+       */
+
         //Lấy tất cả
         [HttpGet]
         public IHttpActionResult GetAllTeacher()
@@ -64,6 +132,45 @@ namespace JanetoWebAPI.Controllers
             });
             return Ok(list);
         }
+        /**
+        * @api {PUT} /teacher/UpdateTeacher Update one teacher
+        * @apigroup Teacher
+        * @apiPermission none
+        * 
+        * @apiParam {Int} Id Id of Teacher
+        * @apiParam {string} TeacherId TeacherId of teacher
+        * @apiParam {string} TeacherName Name of teacher
+        * @apiParam {string} TeacherAddress Address of teacher
+        * 
+        * @apiParamExample {json} Request-Example:
+        * {
+        *      Id: 1,
+        *      TeacherId:"1",
+        *      TeacherName:"Nguyễn Văn A",
+        *      TeacherAddress:"TPHCM"
+        * }
+        * @apiSuccess {string} TeacherId TeacherId of teacher has been updated
+        * @apiSuccess {string} TeacherName Name of teacher has been updated
+        * @apiSuccess {string} TeacherAddress Address of teacher has been updated
+        * 
+        * @apiSuccessExample {json} Response:
+        * {
+        *      Id: 1,
+        *      TeacherId:"1",
+        *      TeacherName:"Nguyễn Văn A",
+        *      TeacherAddress:"TPHCM"
+        * }
+        * 
+        * @apiError [400] {string[]} Errors Array of error
+        * @apiErrorExample:{json}
+        * {
+        *      "Error":[
+        *          "TeacherId" is required
+        *          "TeacherName" is required
+        *      ]
+        * }
+        */
+
         //Sửa
         [HttpPut]
         public IHttpActionResult UpdateTeacher(UpdateTeacherModel model)
@@ -87,6 +194,33 @@ namespace JanetoWebAPI.Controllers
             }
             return httpActionresult;
         }
+        /**
+     * @api {GET} /teacher/GetTeacherByTeacherId?teacherId=:teacherId Get one teacher by teacher id
+     * @apigroup Teacher
+     * @apiPermission none
+     * 
+     * @apiParam {string} teacherId teacherId of teacher
+     * 
+     * @apiExample Example usage: 
+     * 
+     * /teacher/GetTeacherByTeacherId?teacherId=1
+     * 
+     * @apiSuccessExample {json} Response:
+     * {
+     *      Id: 1,
+     *      TeacherId:"1",
+     *      TeacherName:"Nguyễn Văn A",
+     *      TeacherAddress:"TPHCM"
+     * }
+     * 
+     * @apiError [400] {string[]} Errors Array of error
+     * @apiErrorExample:{json}
+     * {
+     *      "Error":[
+     *          Không tìm thấy giáo viên!
+     *      ]
+     * }
+     */
         //Lấy theo mã
         [HttpGet]
         public IHttpActionResult GetTeacherByTeacherId(string teacherId)
@@ -105,6 +239,30 @@ namespace JanetoWebAPI.Controllers
             }
             return httpActionResult;
         }
+        /**
+    * @api {DELETE} /teacher/DeleteTeacher?teacherId=:teacherId Delete one teacher by teacherId
+    * @apigroup Teacher
+    * @apiPermission none
+    * 
+    * @apiParam {string} teacherId teacherId of teacher
+    * 
+    * @apiExample Example usage: 
+    * 
+    * /teacher/DeleteTeacher?teacherId=1
+    * 
+    * @apiSuccessExample {json} Response:
+    * {
+    *      Đã xóa giáo viên 1
+    * }
+    * 
+    * @apiError [400] {string[]} Errors Array of error
+    * @apiErrorExample:{json}
+    * {
+    *      "Error":[
+    *          Mã giáo viên không tồn tạo!
+    *      ]
+    * }
+    */
         //Xóa theo mã
         [HttpDelete]
         public IHttpActionResult DeleteTeacher(string teacherId)
