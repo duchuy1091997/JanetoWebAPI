@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using JanetoWebAPI.ViewModels;
 using ApiModels;
+using JanetoWebAPI.Infrastructure;
 
 namespace JanetoWebAPI.Controllers
 {
@@ -90,7 +91,7 @@ namespace JanetoWebAPI.Controllers
             }
             else
             {
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             return httpActionResult;
         }
@@ -144,13 +145,13 @@ namespace JanetoWebAPI.Controllers
         [HttpPut]
         public IHttpActionResult UpdateStudent(UpdateStudentModel model)
         {
-            IHttpActionResult httpActionresult;
+            IHttpActionResult httpActionResult;
             ErrorModel error = new ErrorModel();
             Student sv = this._db.Student.FirstOrDefault(x => x.Id == model.Id);
             if (sv == null)
             {
                 error.Add("Không tìm thấy Sinh viên!");
-                httpActionresult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {
@@ -161,9 +162,9 @@ namespace JanetoWebAPI.Controllers
                 //sv.Class.Id = model.ClassId;
                 this._db.Entry(sv).State = System.Data.Entity.EntityState.Modified;
                 this._db.SaveChanges();
-                httpActionresult = Ok(new StudentModel(sv));
+                httpActionResult = Ok(new StudentModel(sv));
             }
-            return httpActionresult;
+            return httpActionResult;
         }
         /**
        * @api {GET} /student/GetAllStudent Get all student 
@@ -251,7 +252,7 @@ namespace JanetoWebAPI.Controllers
             if (sv == null)
             {
                 error.Add("Không tìm thấy sinh viên!");
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {
@@ -293,7 +294,7 @@ namespace JanetoWebAPI.Controllers
             if (sv == null)
             {
                 error.Add("Mã sinh viên không tồn tạo!");
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {

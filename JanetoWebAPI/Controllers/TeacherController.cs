@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using JanetoWebAPI.ViewModels;
 using ApiModels;
+using JanetoWebAPI.Infrastructure;
 
 namespace JanetoWebAPI.Controllers
 {
@@ -85,7 +86,7 @@ namespace JanetoWebAPI.Controllers
             }
             else
             {
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
 
             return httpActionResult;
@@ -175,13 +176,13 @@ namespace JanetoWebAPI.Controllers
         [HttpPut]
         public IHttpActionResult UpdateTeacher(UpdateTeacherModel model)
         {
-            IHttpActionResult httpActionresult;
+            IHttpActionResult httpActionResult;
             ErrorModel error = new ErrorModel();
             Teacher tc = this._db.Teacher.FirstOrDefault(x => x.Id == model.Id);
             if (tc == null)
             {
                 error.Add("Không tìm thấy Giáo viên!");
-                httpActionresult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {
@@ -190,9 +191,9 @@ namespace JanetoWebAPI.Controllers
                 tc.TeacherAddress = model.TeacherAddress ?? model.TeacherAddress;
                 this._db.Entry(tc).State = System.Data.Entity.EntityState.Modified;
                 this._db.SaveChanges();
-                httpActionresult = Ok(new TeacherModel(tc));
+                httpActionResult = Ok(new TeacherModel(tc));
             }
-            return httpActionresult;
+            return httpActionResult;
         }
         /**
      * @api {GET} /teacher/GetTeacherByTeacherId?teacherId=:teacherId Get one teacher by teacher id
@@ -231,7 +232,7 @@ namespace JanetoWebAPI.Controllers
             if (tc == null)
             {
                 error.Add("Không tìm thấy giáo viên!");
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {
@@ -273,7 +274,7 @@ namespace JanetoWebAPI.Controllers
             if (tc == null)
             {
                 error.Add("Mã giáo viên không tồn tạo!");
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {

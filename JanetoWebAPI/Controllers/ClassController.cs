@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using JanetoWebAPI.ViewModels;
 using ApiModels;
+using JanetoWebAPI.Infrastructure;
 
 namespace JanetoWebAPI.Controllers
 {
@@ -89,7 +90,7 @@ namespace JanetoWebAPI.Controllers
             }
             else
             {
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             return httpActionResult;
         }
@@ -139,13 +140,13 @@ namespace JanetoWebAPI.Controllers
         [HttpPut]
         public IHttpActionResult UpdateClass(UpdateClassModel model)
         {
-            IHttpActionResult httpActionresult;
+            IHttpActionResult httpActionResult;
             ErrorModel error = new ErrorModel();
             Class lop = this._db.Class.FirstOrDefault(x => x.Id == model.Id);
             if (lop == null)
             {
                 error.Add("Không tìm thấy lớp!");
-                httpActionresult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {
@@ -155,9 +156,9 @@ namespace JanetoWebAPI.Controllers
                 lop.Homeroom = _db.Teacher.FirstOrDefault(x => x.Id == model.Homeroom_Teacher);
                 this._db.Entry(lop).State = System.Data.Entity.EntityState.Modified;
                 this._db.SaveChanges();
-                httpActionresult = Ok(new ClassModel(lop));
+                httpActionResult = Ok(new ClassModel(lop));
             }
-            return httpActionresult;
+            return httpActionResult;
         }
         /**
        * @api {GET} /class/GetAllClass Get all class 
@@ -241,7 +242,7 @@ namespace JanetoWebAPI.Controllers
             if (lop == null)
             {
                 error.Add("Không tìm thấy lớp!");
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, error);
             }
             else
             {
@@ -283,7 +284,7 @@ namespace JanetoWebAPI.Controllers
             if (lop == null)
             {
                 error.Add("Mã lớp không tồn tạo!");
-                httpActionResult = Ok(error);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest,error);
             }
             else
             {
